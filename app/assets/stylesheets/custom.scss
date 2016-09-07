@@ -4,13 +4,31 @@
 
 /*
     variables
+    mixins
+    debug
     universal
     typography
     header
     images
 */
 
-/* variabels */
+/* mixins */
+@mixin box-sizing {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+/* variables */
+
+/* debug */
+.debug_dump {
+  clear: both;
+  float: left;
+  width: 100%;
+  margin-top: 45px;
+  @include box-sizing;
+}
 
 /* universal */
 body {
