@@ -3,12 +3,12 @@ require 'test_helper'
 
 class UserSignupTest < ActionDispatch::IntegrationTest
 
-  @@invalid_params = { user: { name: "",
+  @@invalid_params = { user: { name:  "",
                                email: "woo!",
                                password:              "foo",
                                password_confirmation: "nar" }}
-  @@valid_params = { user: { name: "User",
-                             email: "user@email.com",
+  @@valid_params = { user: { name:  "User",
+                             email: "user@example.com",
                                password:              "password123",
                                password_confirmation: "password123" }}
 
@@ -24,7 +24,7 @@ class UserSignupTest < ActionDispatch::IntegrationTest
     assert_select 'div#error_explanation'
     assert_select 'div.alert-danger'
     assert_select 'ul.error_list' do
-      assert_select 'li', 4
+    assert_select 'li', 4
     end
   end
 
@@ -39,6 +39,7 @@ class UserSignupTest < ActionDispatch::IntegrationTest
     end
     follow_redirect!
     assert_template 'users/show'
+    assert is_logged_in?
   end
 
   test "success flash should appear on successful signup redirect" do

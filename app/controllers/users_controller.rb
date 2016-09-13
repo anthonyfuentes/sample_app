@@ -11,10 +11,13 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-    @user.save ? welcome : render('new')
+    user.save ? welcome : render('new')
+    log_in user
   end
 
   private
+
+    attr_reader :user
 
     def user_params
       params.require(:user).permit(:name, :email, :password,
@@ -25,5 +28,4 @@ class UsersController < ApplicationController
       redirect_to(@user)
       flash[:success] = "Welcome to Sample App"
     end
-
 end
