@@ -12,7 +12,13 @@
       <%= form_builder.label :password %>
       <%= form_builder.password_field :password, class: 'form-control' %>
 
+      <%= form_builder.label :remember_me, class: "checkbox inline" do %>
+        <%= form_builder.check_box :remember_me %>
+        <span>Remember me on this device</span>
+      <% end %>
+
       <%= form_builder.submit "Login", class: "btn btn-primary" %>
+
 
     <% end %>
 
