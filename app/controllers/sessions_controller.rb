@@ -1,5 +1,6 @@
 
 class SessionsController < ApplicationController
+
   def new
   end
 
@@ -27,7 +28,7 @@ class SessionsController < ApplicationController
     def successful_login
       log_in user
       remember user if params[:session][:remember_me] == "1"
-      redirect_to user
+      redirect_back_or(user)
     end
 
     def unsuccessful_login

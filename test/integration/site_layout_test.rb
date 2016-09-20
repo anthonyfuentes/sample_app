@@ -1,11 +1,17 @@
 
-require 'test_helper'
+require "test_helper"
 
 class SiteLayoutTest < ActionDispatch::IntegrationTest
 
-  test "layout links" do
+  include SessionsHelper
+
+  def setup
+    @user = users(:user_one)
+  end
+
+  test "layout links for users and visitors" do
     get root_path
-    assert_template 'static_pages/home'
+    assert_template "static_pages/home"
     assert_select "a[href=?]", root_path, count: 2
     assert_select "a[href=?]", help_path
     assert_select "a[href=?]", about_path
@@ -15,4 +21,20 @@ class SiteLayoutTest < ActionDispatch::IntegrationTest
     get signup_path
     assert_select "title", full_title("Sign up")
   end
+
+  test "layout links for visitors" do
+    get root_path
+    assert_select "a[href=?]", login_path
+  end
+
+  test "layout links for users" do
+    log_in_as(user)
+    get root_path
+    assert_select "a[href=?]", users_path
+    assert_select "a[href=?]", user_path(user)
+    assert_select "a[href=?]", edit_user_path(current_user)
+  end
+
+  private
+    attr_reader :user
 end

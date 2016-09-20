@@ -25,9 +25,24 @@ module SessionsHelper
     @current_user = temporary_session? ? temporary_user : remembered_user
   end
 
+  def current_user?(user)
+    user == current_user
+  end
+
   # true/ false user is logged in
   def logged_in?
     !current_user.nil?
+  end
+
+  # redirects to stored location or default
+  def redirect_back_or(default)
+    redirect_to(session[:forwarding_url] || default)
+    session.delete(:forwarding_url)
+  end
+
+  # stores requested url
+  def store_requested_location
+    session[:forwarding_url] = request.original_url if request.get?
   end
 
   private
