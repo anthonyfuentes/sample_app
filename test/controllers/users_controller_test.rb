@@ -4,11 +4,12 @@ require 'test_helper'
 class UsersControllerTest < ActionDispatch::IntegrationTest
 
   def setup
+    @user_zero = users(:user_zero)
     @user_one = users(:user_one)
     @user_two = users(:user_two)
   end
 
-  test "should redirect to index when not logged in" do
+  test "should redirect from index to login when not logged in" do
     get users_path
     assert_redirected_to login_url
   end
@@ -16,6 +17,18 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   test "should get new" do
     get signup_path
     assert_response :success
+  end
+
+  test "should only allow non-admins to view active user pages" do
+    log_in_as(user_two)
+    get user_path(user_zero)
+    assert_redirected_to root_url
+  end
+
+  test "admin should be able to view all user pages" do
+    log_in_as(user_one)
+    get user_path(user_zero)
+    assert_template "users/show"
   end
 
   test "should redirect edit when not logged in" do
@@ -82,5 +95,5 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   private
-    attr_reader :user_one, :user_two
+    attr_reader :user_zero, :user_one, :user_two
 end

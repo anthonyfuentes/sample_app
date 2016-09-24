@@ -1,0 +1,10 @@
+
+<h3>Sample App</h3>
+
+  <p><%= @user.name %>,</p>
+
+  <p>Follow the url below to complete the new membership process.</p>
+
+  <%= link_to "Join", edit_account_activation_url(@user.activation_token,
+                                                        email: @user.email) %>
+

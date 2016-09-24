@@ -62,7 +62,7 @@ module SessionsHelper
     # returns user based on permanent session cookies
     def remembered_user#(user_id)
       user = User.find_by_id(cookies.signed[:user_id])
-      if user && user.authenticated?(cookies[:remember_token])
+      if user && user.authenticated?(:remember, cookies[:remember_token])
         log_in user
         return user
       end

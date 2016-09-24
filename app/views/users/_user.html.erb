@@ -5,5 +5,10 @@
   <% if current_user.admin? && !current_user?(user) %>
     | <%= link_to "remove", user, method: :delete,
                                   data: { confirm: "Permanently remove #{ user.name }?" } %>
+      <% if !user.activated? %>
+        | <span>
+            <%= "#{ pluralize(user.days_since_signup, 'day') } un-activated" %>
+          </span>
+      <% end %>
   <% end %>
 </li>

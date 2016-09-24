@@ -5,7 +5,7 @@ class SessionsController < ApplicationController
   end
 
   def create
-    authentic_user? ? successful_login : unsuccessful_login
+    authorized_user? ? successful_login : unsuccessful_login
   end
 
   def destroy
@@ -21,8 +21,9 @@ class SessionsController < ApplicationController
       @user ||= User.find_by(email: params[:session][:email].downcase)
     end
 
-    def authentic_user?
-      user && user.authenticate(params[:session][:password])
+    def authorized_user?
+      password = params[:session][:password]
+      user && user.authenticate(password) && user.activated?
     end
 
     def successful_login
@@ -32,6 +33,20 @@ class SessionsController < ApplicationController
     end
 
     def unsuccessful_login
+      user.activated? ? warn_incorrect_credentials :
+                        warn_account_activation
+    end
+
+    def warn_account_activation
+      message = <<-EOM
+        Account not activated.
+        Check your email for the activation link
+      EOM
+      flash[:warning] = message
+      redirect_to root_url
+    end
+
+    def warn_incorrect_credentials
       flash.now[:danger] = 'Log in information not quite right'
       render 'new'
     end
