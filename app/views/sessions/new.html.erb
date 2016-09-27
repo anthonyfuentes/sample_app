@@ -10,6 +10,7 @@
       <%= form_builder.email_field :email, class: 'form-control' %>
 
       <%= form_builder.label :password %>
+      <%= link_to "forgot password?", new_password_reset_path %>
       <%= form_builder.password_field :password, class: 'form-control' %>
 
       <%= form_builder.label :remember_me, class: "checkbox inline" do %>

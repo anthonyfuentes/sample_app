@@ -1,6 +1,6 @@
 
 class User < ApplicationRecord
-  attr_accessor   :remember_token, :activation_token
+  attr_accessor   :remember_token, :activation_token, :reset_token
   before_save     :downcase_email
   before_create   :create_activation_digest
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
@@ -33,6 +33,20 @@ class User < ApplicationRecord
     update_columns(activated: true, activated_at: Time.zone.now)
   end
 
+  def create_password_reset_digest
+    self.reset_token = User.new_token
+    update_columns(reset_digest:  User.digest(reset_token),
+                   reset_sent_at: Time.zone.now)
+  end
+
+  def send_password_reset_email
+    UserMailer.password_reset(self).deliver_now
+  end
+
+  def clear_password_reset
+    update_columns(reset_digest: nil, reset_sent_at: nil)
+  end
+
   # sets & saves remember token & remember digest
   def remember
     self.remember_token = self.class.new_token
@@ -55,6 +69,12 @@ class User < ApplicationRecord
     seconds_per_day = 60 * 60 * 24
     days_since_signup = (created_at - Time.now) / seconds_per_day
     days_since_signup.abs.round
+  end
+
+  # returns true if password reset expired
+  def password_reset_expired?
+    # < "earlier than"
+    reset_sent_at < 2.hours.ago
   end
 
   private
