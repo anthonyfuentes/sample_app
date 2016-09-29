@@ -13,6 +13,7 @@ class UsersController < ApplicationController
   # shows current_user profile if activated
   def show
     @user = User.find(params[:id])
+    @microposts = user.microposts.paginate(page: params[:page])
     unless user.activated? || current_user.admin?
       redirect_to root_url and return
     end

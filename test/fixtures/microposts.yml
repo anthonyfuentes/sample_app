@@ -1,0 +1,22 @@
+
+second:
+  content: "11 minutes ago"
+  created_at: <%= 11.minutes.ago %>
+  user: user_one
+
+first:
+  content: "2 years ago"
+  created_at: <%= 2.years.ago %>
+  user: user_one
+
+most_recent:
+  content: "Just now"
+  created_at: <%= Time.zone.now %>
+  user: user_one
+
+    <% 33.times do |n| %>
+micropost_<%= n %>:
+  content: <%= Faker::Lorem.sentence(5) %>
+  created_at: <%= 12.days.ago %>
+  user: user_one
+    <% end %>
