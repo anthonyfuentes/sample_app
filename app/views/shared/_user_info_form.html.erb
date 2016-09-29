@@ -1,20 +1,20 @@
 
 
-<%= form_for(@user, url: yield(:url)) do |f| %>
+<%= form_for(@user, url: yield(:url)) do |form_builder| %>
 
-  <%= render "shared/error_messages" %>
+  <%= render "shared/error_messages", object: form_builder.object %>
 
-  <%= f.label :name %>
-  <%= f.text_field :name, class: "form-control" %>
+  <%= form_builder.label :name %>
+  <%= form_builder.text_field :name, class: "form-control" %>
 
-  <%= f.label :email %>
-  <%= f.email_field :email, class: "form-control" %>
+  <%= form_builder.label :email %>
+  <%= form_builder.email_field :email, class: "form-control" %>
 
-  <%= f.label :password %>
-  <%= f.password_field :password, class: "form-control" %>
+  <%= form_builder.label :password %>
+  <%= form_builder.password_field :password, class: "form-control" %>
 
-  <%= f.label :password_confirmation, "Confirmation" %>
-  <%= f.password_field :password_confirmation, class: "form-control" %>
+  <%= form_builder.label :password_confirmation, "Confirmation" %>
+  <%= form_builder.password_field :password_confirmation, class: "form-control" %>
 
-  <%= f.submit yield(:button_text), class: "btn btn-primary" %>
+  <%= form_builder.submit yield(:button_text), class: "btn btn-primary" %>
 <% end %>

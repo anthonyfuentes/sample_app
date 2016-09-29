@@ -49,9 +49,9 @@ module SessionsHelper
 
     attr_writer :current_user
 
-    # returns true/ false if temporary session
+    # returns user_id/ or nil
     def temporary_session?
-      !!session[:user_id]
+      session[:user_id]
     end
 
     # returns user based on session[:user_id] if no @curent_user
