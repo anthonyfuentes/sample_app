@@ -1,3 +1,4 @@
+
 require 'test_helper'
 
 class MicropostsControllerTest < ActionDispatch::IntegrationTest
@@ -18,6 +19,14 @@ class MicropostsControllerTest < ActionDispatch::IntegrationTest
       delete micropost_path(micropost)
     end
     assert_redirected_to login_url
+  end
+
+  test "should redirect destroy user is not author" do
+    log_in_as(users(:user_two))
+    assert_no_difference 'Micropost.count' do
+      delete micropost_path(microposts(:zone))
+    end
+    assert_redirected_to root_url
   end
 
   private

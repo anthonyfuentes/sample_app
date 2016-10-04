@@ -78,6 +78,12 @@ class User < ApplicationRecord
     reset_sent_at < 2.hours.ago
   end
 
+  # returns all of given users microposts
+  def feed
+    # ? escapes ID to protect against SQL injection
+    Micropost.where("user_id = ?", id)
+  end
+
   private
 
     def downcase_email
