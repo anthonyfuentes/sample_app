@@ -1,0 +1,14 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+
+one:
+  follower: user_zero
+  followed: user_one
+
+two:
+  follower: user_one
+  followed: user_zero
+
+three:
+  follower: user_zero
+  follower: user_two

@@ -1,8 +1,7 @@
+
 require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
-
-  attr_reader :user
 
   def setup
     @user = User.new(name: "Usu Ario", email: "usuario@ejemplo.com",
@@ -84,4 +83,34 @@ class UserTest < ActiveSupport::TestCase
       user.destroy
     end
   end
+
+  test "should be able to follow and unfollow other users" do
+    user_one = users(:user_one)
+    user_two = users(:user_two)
+    assert_not user_one.following?(user_two)
+    user_one.follow(user_two)
+    assert user_two.followers.include?(user_one)
+    assert user_one.following?(user_two)
+  end
+
+  test "feed should display followed & own posts only" do
+    user_zero = users(:user_zero)
+    user_one  = users(:user_one)
+    user_two  = users(:user_two)
+    # posts from followed user
+    user_zero.microposts.each do |post|
+      assert user_one.feed.include?(post)
+    end
+    # posts from self
+    user_one.microposts.each do |post|
+      assert user_one.feed.include?(post)
+    end
+    # posts from unfollowed user
+    user_two.microposts.each do |post|
+      assert_not user_one.feed.include?(post)
+    end
+  end
+
+  private
+    attr_reader :user
 end

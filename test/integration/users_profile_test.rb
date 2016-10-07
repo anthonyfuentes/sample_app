@@ -20,6 +20,11 @@ class UsersProfileTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test "following and follower count should appear on user profile page" do
+    get user_path(user)
+    assert_select "section.user-stats"
+  end
+
   private
     attr_reader :user
 end

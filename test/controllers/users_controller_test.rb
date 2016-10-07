@@ -94,6 +94,16 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_not flash.empty?
   end
 
+  test "should redirect following when not logged in" do
+    get following_user_path(user_one)
+    assert_redirected_to login_url
+  end
+
+  test "should redirect followers when not logged in" do
+    get followers_user_path(user_one)
+    assert_redirected_to login_url
+  end
+
   private
     attr_reader :user_zero, :user_one, :user_two
 end

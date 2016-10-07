@@ -1,3 +1,4 @@
+
 module UsersHelper
 
   # returns gravatar for given user
