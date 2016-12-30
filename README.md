@@ -1,6 +1,6 @@
 # Sample App (Hartl Rails Tutorial)
 
-My take on the Sample App developed through the canonical [Hartl tutorial](https://www.railstutorial.org/book).
+My take on the Sample App, a blogging application, developed through the canonical [Hartl tutorial](https://www.railstutorial.org/book).
 
 ## Running Sample App
 
